@@ -1,11 +1,18 @@
 package com.sistema.models.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "TAB_EDITORA")
@@ -18,17 +25,23 @@ public class Editora {
 	private String cidade; 
 	private String cep;
 	
+	private List<Autor> autores;
+	
 	public Editora() {
 	}
 
-	public Editora(Long id, String nome, String endereco, String bairro, String cidade, String cep) {
+	public Editora(Long id, String nome, String endereco, String bairro, String cidade, String cep, List<Autor> autores) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.bairro = bairro;
 		this.cidade = cidade;
 		this.cep = cep;
+		this.autores = autores;
 	}
+
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,6 +97,16 @@ public class Editora {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+	
+	@JsonIgnore
+    @OneToMany(mappedBy = "editora")
+	public List<Autor> getAutores() {
+		return autores;
+	}
+
+	public void setAutores(List<Autor> autores) {
+		this.autores = autores;
 	}
 
 	@Override

@@ -1,13 +1,19 @@
 package com.sistema.models.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "TAB_AUTOR")
@@ -27,12 +33,17 @@ public class Autor {
 	private String telefoneFixo;
 	private String telefoneMovel;
 	
+	private Editora editora;
+	
+	private List<AutorLivro> listaAutoresLivros;
+
 	public Autor() {
 	}
 
 
 	public Autor(Long id, String nome, Date dataNacismento, String rg, String cpf, String sexo, String endereco,
-			String bairro, String cidade, String cep, String email, String telefoneFixo, String telefoneMovel) {
+			String bairro, String cidade, String cep, String email, String telefoneFixo, String telefoneMovel,
+			Editora editora) {
 		this.id = id;
 		this.nome = nome;
 		this.dataNacismento = dataNacismento;
@@ -46,6 +57,7 @@ public class Autor {
 		this.email = email;
 		this.telefoneFixo = telefoneFixo;
 		this.telefoneMovel = telefoneMovel;
+		this.editora = editora;
 	}
 
 	@Id
@@ -179,7 +191,43 @@ public class Autor {
 		this.telefoneMovel = telefoneMovel;
 	}
 	
+	@JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="ID_EDITORA")
+	public Editora getEditora() {
+		return editora;
+	}
 
+
+	public void setEditora(Editora editora) {
+		this.editora = editora;
+	}
+	
+	
+//    @ManyToMany
+//    @JoinTable(name = "TAB_AUTOR_LIVROS", 
+//    		   joinColumns = @JoinColumn(name="ID_AUTOR"),
+//    		   inverseJoinColumns = @JoinColumn(name="ID_LIVRO"))
+//	public List<Livro> getLivros() {
+//		return livros;
+//	}
+//
+//
+//	public void setLivros(List<Livro> livros) {
+//		this.livros = livros;
+//	}
+
+    @OneToMany(mappedBy = "autor")	
+ 	public List<AutorLivro> getListaAutoresLivros() {
+		return listaAutoresLivros;
+	}
+
+
+	public void setListaAutoresLivros(List<AutorLivro> listaAutoresLivros) {
+		this.listaAutoresLivros = listaAutoresLivros;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -187,6 +235,8 @@ public class Autor {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -205,14 +255,16 @@ public class Autor {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Autor [id=" + id + ", nome=" + nome + ", dataNacismento=" + dataNacismento + ", rg=" + rg + ", cpf="
 				+ cpf + ", sexo=" + sexo + ", endereco=" + endereco + ", bairro=" + bairro + ", cidade=" + cidade
 				+ ", cep=" + cep + ", email=" + email + ", telefoneFixo=" + telefoneFixo + ", telefoneMovel="
-				+ telefoneMovel + "]";
+				+ telefoneMovel + ", editora=" + editora + "]";
 	}
+
+
+	
 	
 
 }

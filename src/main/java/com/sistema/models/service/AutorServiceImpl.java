@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +21,13 @@ public class AutorServiceImpl implements AutorService {
 	private AutorRepository autorRepository;
 		
 	@Override
-	public void save(Autor autor) {      
-		autorRepository.save(autor);
+	public Autor save(Autor autor) {      
+		return autorRepository.saveAndFlush(autor);
 	}
 
 	@Override
-	public void update(Autor autor) {    
-		save(autor);
+	public Autor update(Autor autor) {
+		return save(autor);
 	}
 
 	@Override
@@ -44,4 +46,35 @@ public class AutorServiceImpl implements AutorService {
 		return autorRepository.findAll();
 	}
 
+	@Override
+	public Page<Autor> findAll(Pageable pageable) {
+		return autorRepository.findAll(pageable);
+	}
+
 }
+
+
+
+
+
+
+
+//Autor autorUpdate = null;
+//Optional<Autor> autorCadastrado = findById(id);
+//if (autorCadastrado.isPresent()) {
+//	autorUpdate = autorCadastrado.get();
+//	autorUpdate.setBairro(autor.getBairro());
+//	autorUpdate.setCep(autor.getCep());
+//	autorUpdate.setCidade(autor.getCidade());
+//	autorUpdate.setCpf(autor.getCpf());
+//	autorUpdate.setDataNacismento(autor.getDataNacismento());
+//	autorUpdate.setEditora(autor.getEditora());
+//	autorUpdate.setEmail(autor.getEmail());
+//	autorUpdate.setEndereco(autor.getEndereco());
+//	autorUpdate.setNome(autor.getNome());
+//	autorUpdate.setRg(autor.getRg());
+//	autorUpdate.setSexo(autor.getSexo());
+//	autorUpdate.setTelefoneFixo(autor.getTelefoneFixo());
+//	autorUpdate.setTelefoneMovel(autor.getTelefoneMovel());
+//	autorUpdate.setLivros(autor.getLivros());
+//}

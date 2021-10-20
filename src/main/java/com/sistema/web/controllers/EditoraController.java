@@ -30,8 +30,7 @@ public class EditoraController {
 	public List<Editora> findAll(){
 		return editoraService.findAll();
 	}
-	
-	
+		
 	@ResponseBody
 	@PostMapping(value="/inserir")
 	public ResponseEntity<Editora> save(@RequestBody Editora editora){

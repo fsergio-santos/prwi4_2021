@@ -1,12 +1,14 @@
 package com.sistema.models.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +20,9 @@ public class Livro {
 	private Date dataPublicacao;
 	private Integer numeroPaginas;
 	private String area;
+	
+	private List<AutorLivro> listaAutoresLivros;
+	
 	
 	public Livro() {
 	}
@@ -76,6 +81,27 @@ public class Livro {
 	public void setArea(String area) {
 		this.area = area;
 	}
+	
+//	@JsonIgnore
+//    @ManyToMany(mappedBy = "livros")
+//	public List<Autor> getAutores() {
+//		return autores;
+//	}
+//
+//	public void setAutores(List<Autor> autores) {
+//		this.autores = autores;
+//	}
+	
+    @OneToMany(mappedBy = "livro")
+	public List<AutorLivro> getListaAutoresLivros() {
+		return listaAutoresLivros;
+	}
+
+	public void setListaAutoresLivros(List<AutorLivro> listaAutoresLivros) {
+		this.listaAutoresLivros = listaAutoresLivros;
+	}
+
+	
 
 	@Override
 	public int hashCode() {
@@ -85,6 +111,8 @@ public class Livro {
 		return result;
 	}
 
+	
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

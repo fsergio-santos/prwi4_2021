@@ -51,6 +51,11 @@ public class AutorServiceImpl implements AutorService {
 		return autorRepository.findAll(pageable);
 	}
 
+	@Override
+	public Page<Autor> findAutorByName(String nome, Pageable pageable) {
+		return autorRepository.findAutorByName(nome, pageable);
+	}
+
 }
 
 

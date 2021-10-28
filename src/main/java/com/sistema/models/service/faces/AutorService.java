@@ -17,5 +17,6 @@ public interface AutorService {
 	void deleteById(Long id);
 	Optional<Autor> findById(Long id);
 	Page<Autor> findAll(Pageable pageable);
+	Page<Autor> findAutorByName(String nome, Pageable pageable);
 
 }

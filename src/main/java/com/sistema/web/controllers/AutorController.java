@@ -1,12 +1,13 @@
 package com.sistema.web.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,11 +32,36 @@ public class AutorController {
 	@GetMapping(value="/listar")
 	public Page<Autor> findAll(
 			@RequestParam(value="paginaAtual",required=false) Optional<Integer> paginaAtual,
-			@RequestParam(value="tamanhoPagina",required=false) Optional<Integer> tamanhoPagina ){
+			@RequestParam(value="tamanhoPagina",required=false) Optional<Integer> tamanhoPagina,
+			@RequestParam(value="atributo",required=false) Optional<String> atributo,
+			@RequestParam(value="dir",required=false) Optional<String> dir ){
 		
-		    Pageable pageable = gerarPagina(paginaAtual.orElse(0), tamanhoPagina.orElse(5) );
+		    Pageable pageable = gerarPagina(paginaAtual.orElse(0), 
+		    		                        tamanhoPagina.orElse(5), 
+		    		                        dir.orElse("asc"), 
+		    		                        atributo.orElse("id") );
 		    
 		    Page<Autor> paginaAutor = autorService.findAll(pageable);
+		
+		return paginaAutor; 
+	}
+	
+	
+	@ResponseBody
+	@GetMapping(value="/listar/{nome}")
+	public Page<Autor> findAutorByName(
+			@PathVariable("nome") String nome,
+			@RequestParam(value="paginaAtual",required=false) Optional<Integer> paginaAtual,
+			@RequestParam(value="tamanhoPagina",required=false) Optional<Integer> tamanhoPagina,
+			@RequestParam(value="atributo",required=false) Optional<String> atributo,
+			@RequestParam(value="dir",required=false) Optional<String> dir ){
+		
+		    Pageable pageable = gerarPagina(paginaAtual.orElse(0), 
+		    		                        tamanhoPagina.orElse(5), 
+		    		                        dir.orElse("asc"), 
+		    		                        atributo.orElse("id") );
+		    
+		    Page<Autor> paginaAutor = autorService.findAutorByName(nome, pageable);
 		
 		return paginaAutor; 
 	}
@@ -62,8 +88,12 @@ public class AutorController {
 	}
 	
 	
-	public Pageable gerarPagina(Integer paginaAtual,Integer tamanhoPagina ) {
-		return PageRequest.of(paginaAtual, tamanhoPagina);
+	public Pageable gerarPagina(Integer paginaAtual,Integer tamanhoPagina, String dir, String atributo ) {
+		return PageRequest.of(paginaAtual, tamanhoPagina, getDirection(dir), atributo);
+	}
+	
+	private Direction getDirection(String dir) {
+		return dir.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 	}
 	
 	

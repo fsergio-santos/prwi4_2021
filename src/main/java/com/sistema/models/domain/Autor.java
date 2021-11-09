@@ -21,7 +21,7 @@ public class Autor {
 	
 	private Long   id;
 	private String nome;
-	private Date   dataNacismento;
+	private Date   dataNascimento;
 	private String rg;
 	private String cpf; 
 	private String sexo;
@@ -46,7 +46,7 @@ public class Autor {
 			Editora editora) {
 		this.id = id;
 		this.nome = nome;
-		this.dataNacismento = dataNacismento;
+		this.dataNascimento = dataNascimento;
 		this.rg = rg;
 		this.cpf = cpf;
 		this.sexo = sexo;                    
@@ -81,13 +81,13 @@ public class Autor {
 	}
 
 	@Column(name = "DATA_NASCIMENTO_AUTOR", nullable = false )
-	public Date getDataNacismento() {
-		return dataNacismento;
+	public Date getDataNascimento() {
+		return dataNascimento;
 	}
 
 
-	public void setDataNacismento(Date dataNacismento) {
-		this.dataNacismento = dataNacismento;
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 	@Column(name = "RG_AUTOR", length = 20, nullable = false )
@@ -257,7 +257,7 @@ public class Autor {
 
 	@Override
 	public String toString() {
-		return "Autor [id=" + id + ", nome=" + nome + ", dataNacismento=" + dataNacismento + ", rg=" + rg + ", cpf="
+		return "Autor [id=" + id + ", nome=" + nome + ", dataNascimento=" + dataNascimento + ", rg=" + rg + ", cpf="
 				+ cpf + ", sexo=" + sexo + ", endereco=" + endereco + ", bairro=" + bairro + ", cidade=" + cidade
 				+ ", cep=" + cep + ", email=" + email + ", telefoneFixo=" + telefoneFixo + ", telefoneMovel="
 				+ telefoneMovel + ", editora=" + editora + "]";

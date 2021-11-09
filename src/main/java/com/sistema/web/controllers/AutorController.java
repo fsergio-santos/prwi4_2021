@@ -72,6 +72,13 @@ public class AutorController {
 	 	return autorService.save(autor);
 	}
 	
+	
+	@ResponseBody
+	@PostMapping(value="/alterar")
+	public Autor update(@RequestBody Autor autor) {
+	 	return autorService.update(autor);
+	}
+	
 
 	@ResponseBody
 	@DeleteMapping(value="/delete/{id}")

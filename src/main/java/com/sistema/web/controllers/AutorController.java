@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sistema.models.domain.Autor;
 import com.sistema.models.service.faces.AutorService;
+import com.sistema.models.service.util.GerarListaPagina;
 
 @RestController
 @RequestMapping(value="/autor")
@@ -36,7 +37,7 @@ public class AutorController {
 			@RequestParam(value="atributo",required=false) Optional<String> atributo,
 			@RequestParam(value="dir",required=false) Optional<String> dir ){
 		
-		    Pageable pageable = gerarPagina(paginaAtual.orElse(0), 
+		    Pageable pageable = GerarListaPagina.gerarPagina(paginaAtual.orElse(0), 
 		    		                        tamanhoPagina.orElse(5), 
 		    		                        dir.orElse("asc"), 
 		    		                        atributo.orElse("id") );
@@ -56,7 +57,7 @@ public class AutorController {
 			@RequestParam(value="atributo",required=false) Optional<String> atributo,
 			@RequestParam(value="dir",required=false) Optional<String> dir ){
 		
-		    Pageable pageable = gerarPagina(paginaAtual.orElse(0), 
+		    Pageable pageable = GerarListaPagina.gerarPagina(paginaAtual.orElse(0), 
 		    		                        tamanhoPagina.orElse(5), 
 		    		                        dir.orElse("asc"), 
 		    		                        atributo.orElse("id") );
@@ -93,16 +94,5 @@ public class AutorController {
 		return autorService.findById(id);
 		
 	}
-	
-	
-	public Pageable gerarPagina(Integer paginaAtual,Integer tamanhoPagina, String dir, String atributo ) {
-		return PageRequest.of(paginaAtual, tamanhoPagina, getDirection(dir), atributo);
-	}
-	
-	private Direction getDirection(String dir) {
-		return dir.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
-	}
-	
-	
 	
 }

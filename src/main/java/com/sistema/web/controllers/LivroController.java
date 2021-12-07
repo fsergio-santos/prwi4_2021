@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sistema.models.domain.Autor;
 import com.sistema.models.domain.Livro;
 import com.sistema.models.service.faces.LivroService;
 import com.sistema.models.service.util.GerarListaPagina;
@@ -48,6 +49,25 @@ public class LivroController {
 		return paginaLivro;
 	}
 	
+	
+	@ResponseBody
+	@GetMapping(value="/listar/{nome}")
+	public Page<Livro> findAutorByName(
+			@PathVariable("nome") String nome,
+			@RequestParam(value="paginaAtual",required=false) Optional<Integer> paginaAtual,
+			@RequestParam(value="tamanhoPagina",required=false) Optional<Integer> tamanhoPagina,
+			@RequestParam(value="atributo",required=false) Optional<String> atributo,
+			@RequestParam(value="dir",required=false) Optional<String> dir ){
+		
+		    Pageable pageable = GerarListaPagina.gerarPagina(paginaAtual.orElse(0), 
+		    		                        tamanhoPagina.orElse(5), 
+		    		                        dir.orElse("asc"), 
+		    		                        atributo.orElse("id") );
+		    
+		    Page<Livro> paginaLivro = livroService.findLivroByName(nome, pageable);
+		
+		return paginaLivro; 
+	}
 	
 	@ResponseBody
 	@PostMapping(value="/inserir", consumes = MediaType.APPLICATION_JSON_VALUE,

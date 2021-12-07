@@ -8,8 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "TAB_LIVRO")
@@ -21,7 +24,7 @@ public class Livro {
 	private Integer numeroPaginas;
 	private String area;
 	
-	private List<AutorLivro> listaAutoresLivros;
+	private List<Autor> autores;
 	
 	
 	public Livro() {
@@ -82,24 +85,25 @@ public class Livro {
 		this.area = area;
 	}
 	
-//	@JsonIgnore
-//    @ManyToMany(mappedBy = "livros")
-//	public List<Autor> getAutores() {
-//		return autores;
-//	}
-//
-//	public void setAutores(List<Autor> autores) {
-//		this.autores = autores;
-//	}
-	
-    @OneToMany(mappedBy = "livro")
-	public List<AutorLivro> getListaAutoresLivros() {
-		return listaAutoresLivros;
+	@JsonIgnore
+    @ManyToMany(mappedBy = "livros")
+	public List<Autor> getAutores() {
+		return autores;
 	}
 
-	public void setListaAutoresLivros(List<AutorLivro> listaAutoresLivros) {
-		this.listaAutoresLivros = listaAutoresLivros;
+	public void setAutores(List<Autor> autores) {
+		this.autores = autores;
 	}
+	
+	
+//    @OneToMany(mappedBy = "livro")
+//	public List<AutorLivro> getListaAutoresLivros() {
+//		return listaAutoresLivros;
+//	}
+//
+//	public void setListaAutoresLivros(List<AutorLivro> listaAutoresLivros) {
+//		this.listaAutoresLivros = listaAutoresLivros;
+//	}
 
 	
 

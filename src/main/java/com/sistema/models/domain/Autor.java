@@ -9,9 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.BatchSize;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,13 +40,13 @@ public class Autor {
 	
 	private Editora editora;
 	
-	private List<AutorLivro> listaAutoresLivros;
+	private List<Livro> livros;
 
 	public Autor() {
 	}
 
 
-	public Autor(Long id, String nome, Date dataNacismento, String rg, String cpf, String sexo, String endereco,
+	public Autor(Long id, String nome, Date dataNascimento, String rg, String cpf, String sexo, String endereco,
 			String bairro, String cidade, String cep, String email, String telefoneFixo, String telefoneMovel,
 			Editora editora) {
 		this.id = id;
@@ -203,29 +208,29 @@ public class Autor {
 		this.editora = editora;
 	}
 	
-	
-//    @ManyToMany
-//    @JoinTable(name = "TAB_AUTOR_LIVROS", 
-//    		   joinColumns = @JoinColumn(name="ID_AUTOR"),
-//    		   inverseJoinColumns = @JoinColumn(name="ID_LIVRO"))
-//	public List<Livro> getLivros() {
-//		return livros;
-//	}
-//
-//
-//	public void setLivros(List<Livro> livros) {
-//		this.livros = livros;
-//	}
-
-    @OneToMany(mappedBy = "autor")	
- 	public List<AutorLivro> getListaAutoresLivros() {
-		return listaAutoresLivros;
+	@Size(min=1, message = "obrigatório informar um livro ")
+    @ManyToMany
+    @JoinTable(name = "TAB_AUTOR_LIVRO", 
+    		   joinColumns = @JoinColumn(name="ID_AUTOR"),
+    		   inverseJoinColumns = @JoinColumn(name="ID_LIVRO"))
+	public List<Livro> getLivros() {
+		return livros;
 	}
 
 
-	public void setListaAutoresLivros(List<AutorLivro> listaAutoresLivros) {
-		this.listaAutoresLivros = listaAutoresLivros;
+	public void setLivros(List<Livro> livros) {
+		this.livros = livros;
 	}
+
+//    @OneToMany(mappedBy = "autor")	
+// 	public List<AutorLivro> getListaAutoresLivros() {
+//		return listaAutoresLivros;
+//	}
+//
+//
+//	public void setListaAutoresLivros(List<AutorLivro> listaAutoresLivros) {
+//		this.listaAutoresLivros = listaAutoresLivros;
+//	}
 	
 	
 	@Override

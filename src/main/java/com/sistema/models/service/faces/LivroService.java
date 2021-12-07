@@ -16,4 +16,5 @@ public interface LivroService {
 	Optional<Livro> findById(Long id);
 	List<Livro> findAll();
 	Page<Livro> findAll(Pageable pageable);
+	Page<Livro> findLivroByName(String nome, Pageable pageable);
 }

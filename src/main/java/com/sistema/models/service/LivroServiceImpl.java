@@ -52,4 +52,9 @@ public class LivroServiceImpl implements LivroService {
 		return livroRepository.findAll(pageable);
 	}
 
+	@Override
+	public Page<Livro> findLivroByName(String nome, Pageable pageable) {
+		return livroRepository.findLivroByName(nome, pageable);
+	}
+
 }
